@@ -174,7 +174,7 @@ def test_parse_nvidia_smi_mib_to_gib():
     assert parse_nvidia_smi("10240\n") == 10.0
 
 
-# --- container detection (name-based; live recon 2026-09-12) ------------------
+# --- container detection (name-based) -----------------------------------------
 #
 # GLM (glm53-exl3-head) and Qwen (vllm-fn-tp1) are RAW-docker containers with
 # NO com.docker.compose.project label — label-based detection reports a
@@ -451,8 +451,8 @@ async def test_server_status_running_when_container_and_health():
 
 
 async def test_server_status_no_model_fetch_when_unhealthy():
-    # Validator finding (2026-09-12): model must not be fetched when health
-    # is down — no real network calls in unit tests, and no pointless probe.
+    # Model must not be fetched when health is down — no real network
+    # calls in unit tests, and no pointless probe.
     ssh = FakeSsh(name_states={"glm53-exl3-head": "running"})
     ctl = make_control(ssh, healthy=False)
     st = await ctl.server_status()
@@ -491,7 +491,7 @@ async def test_server_status_unreachable_when_head_down():
     assert st.state == "unreachable"
 
 
-# --- lane serialization (live incident 2026-09-12: double-start race) --------
+# --- lane serialization (the double-start race) ------------------------------
 #
 # Root cause: start/stop had NO mutual exclusion and the UI showed no pending
 # state, so two taps submitted two concurrent start jobs (GLM + DS raced on

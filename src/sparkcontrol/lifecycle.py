@@ -240,7 +240,7 @@ class ServerControl:
         """Container state for *recipe* on its head node.
 
         Primary: name-anchored `docker ps` filter (running containers only).
-        Live recon 2026-09-12: GLM/Qwen are raw-docker containers WITHOUT a
+        Some recipes (e.g. GLM/Qwen) are raw-docker containers WITHOUT a
         com.docker.compose.project label, so label-based detection reports a
         healthy running server as stopped. Container NAMES are the reliable
         anchor for both raw-docker and compose deployments.
@@ -305,10 +305,9 @@ class ServerControl:
 
         Returns Ok(job_id). Err(PORT_HELD_NEEDS_CONFIRM) when another recipe
         holds the port/nodes and confirm_swap is False — the UI must show the
-        conflict and re-call with confirm_swap=True (Mike decision 2026-09-12:
-        never a surprise stop).
+        conflict and re-call with confirm_swap=True (never a surprise stop).
 
-        Lane serialization (live incident 2026-09-12): at most ONE start/stop
+        Lane serialization (double-start race protection): at most ONE start/stop
         operation in flight. While another control job is pending/running, this
         fails fast with Err(OP_IN_PROGRESS) — a second tap can never launch a
         concurrent recipe on the same :8888 lane.

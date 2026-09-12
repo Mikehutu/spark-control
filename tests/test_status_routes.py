@@ -298,7 +298,7 @@ def test_jobs_recent_lists_history(api):
     assert [j["created_at"] for j in jobs] == sorted(
         (j["created_at"] for j in jobs), reverse=True
     )
-    # clamp proof (validator Probe C): seed >100 records -> limit=1000 must cap at 100
+    # clamp proof: seed >100 records -> limit=1000 must cap at 100
     from sparkcontrol.jobs import JobRecord, JobState
 
     store = _control.jobs._store  # noqa: SLF001 - test seeds the ledger directly
@@ -375,7 +375,7 @@ def test_bare_app_has_no_control_routes():
         assert r.status_code == 404
 
 
-# --- lane serialization over HTTP (live incident 2026-09-12) ------------------
+# --- lane serialization over HTTP (the double-start race) ----------------------
 
 
 def test_start_in_flight_reports_409_and_ui_reflects_it(api, monkeypatch):
