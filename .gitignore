@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Node
+node_modules/
+.next/
+dist/
+coverage/
+
+# Rust
+target/
+
+# Go
+bin/
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Runtime artifacts (job ledger)
+*.sqlite3
+
+# Secrets / env
+.env
+.env.*
+!.env.example
+
+# Local data / generated
+*.db
+*.sqlite
+data/
+runs/
+*.log
+out/
+generated/
+docs/validation/latest.md
+
+# Agent local
+.hermes/
+.claude/settings.local.*
+
+# secrets / runtime
+.env
+.env.*
+!.env.example
+*.sqlite3
+*.log

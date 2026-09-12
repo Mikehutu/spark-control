@@ -1,0 +1,41 @@
+# Spark Control — recipe registry (EXAMPLE - edit for your cluster).
+#
+# A *recipe* is one model-serving deployment: which node(s) it runs on, the
+# port, how to detect it, and the existing start/stop scripts the gateway
+# must WRAP (it never reimplements them).
+#
+# Node keys below are free-form identifiers that resolve through [nodes].
+# Script paths are ABSOLUTE ON THE NODE (the gateway reaches them over SSH).
+# Containers are name-anchored for detection (docker ps --filter name=^...$);
+# a recipe with no container names falls back to its compose project label.
+
+[nodes]
+node-a = "192.0.2.10"   # your head node (serves the canonical port)
+node-b = "192.0.2.11"   # optional compute node (TP2 multi-node recipes)
+
+[[recipes]]
+recipe_id = "my-server-a"          # unique id used by the UI/API
+nodes = ["node-a", "node-b"]       # TP2 example: spans both nodes
+port = 8888                        # canonical serving port on the head node
+compose_project = "my-server-a"    # docker compose project (stop keyed by it)
+containers = ["my-server-head"]    # container names created by the recipe
+start_script = "/home/YOUR_USER/my-server-a/start.sh"
+stop_script = "/home/YOUR_USER/my-server-a/stop.sh"
+served_model = "My-Server-Model-X" # what /v1/models reports when healthy
+start_timeout_s = 900.0            # model load can take 10+ minutes
+
+[[recipes]]
+recipe_id = "my-server-b"          # TP1 example: single node, same port
+nodes = ["node-a"]
+port = 8888
+compose_project = "my-server-b"
+containers = ["my-server-b-head"]
+start_script = "/home/YOUR_USER/my-server-b/start.sh"
+stop_script = "/home/YOUR_USER/my-server-b/stop.sh"
+served_model = "My-Server-Model-Y"
+start_timeout_s = 900.0
+
+# conflicts: recipes that cannot run at the same time (same port/nodes).
+# Recipes sharing the port AND a node conflict automatically; add explicit
+# conflicts when the overlap is not structural (e.g. shared GPU).
+# conflicts = ["my-server-a"]

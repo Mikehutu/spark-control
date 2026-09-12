@@ -1,0 +1,29 @@
+# Spark Control gateway — example systemd unit.
+# Copy to /etc/systemd/system/sparkctl-gateway.service and adjust the paths.
+# Assumes the app lives in /opt/spark-control and runs as a dedicated user
+# (create one:  sudo useradd -r -m -d /opt/spark-control sparkctl
+#   then grant it SSH access to your nodes, e.g. via its ~/.ssh).
+
+[Unit]
+Description=Spark Control gateway (DGX Spark model control plane)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=sparkctl
+Group=sparkctl
+WorkingDirectory=/opt/spark-control
+EnvironmentFile=/opt/spark-control/.env
+ExecStart=/opt/spark-control/.venv/bin/python -m sparkcontrol
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=20
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/opt/spark-control
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

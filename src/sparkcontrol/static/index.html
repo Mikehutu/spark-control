@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Spark Control</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header id="nav">
+    <h1>SPARK<span class="accent">CONTROL</span></h1>
+    <nav class="tabs">
+      <button class="tab active" data-page="home">Status</button>
+      <button class="tab" data-page="recipes">Recipes</button>
+      <button class="tab" data-page="jobs">Jobs</button>
+      <button class="tab" data-page="monitor">Monitor</button>
+    </nav>
+  </header>
+
+  <div id="banner" class="banner hidden"></div>
+  <div id="offline" class="banner warn hidden">Offline — showing stale data</div>
+
+  <main id="page-home" class="page">
+    <section id="status-card" class="card">
+      <div class="card-title">Lane status</div>
+      <div id="state-line" class="state state-idle">Connecting…</div>
+      <div id="model-line"></div>
+      <ul id="nodes"></ul>
+    </section>
+    <button id="main-button" class="primary-btn" disabled>…</button>
+    <p id="hint">Stop: long-press ≥ 800 ms · Start: one tap · Swaps always ask first.</p>
+  </main>
+
+  <main id="page-recipes" class="page hidden">
+    <section class="card">
+      <div class="card-title">Recipe matrix</div>
+      <ul id="recipes"></ul>
+    </section>
+    <p class="hint">“needs swap” = starting it must stop the recipe holding the lane — you’ll be asked to confirm.</p>
+  </main>
+
+  <main id="page-jobs" class="page hidden">
+    <section class="card">
+      <div class="card-title">Job history</div>
+      <ul id="jobs-list"><li class="muted">Loading…</li></ul>
+    </section>
+    <p class="hint">Every start/stop is logged with its output tail (last 50 lines).</p>
+  </main>
+
+  <main id="page-monitor" class="page hidden">
+    <section class="card">
+      <div class="card-title">sparkDash — live glance</div>
+      <iframe id="sparkdash-frame" loading="lazy" src="" title="sparkDash"></iframe>
+      <div class="row"><a id="grafana-link" class="ghost-btn" href="#" target="_blank" rel="noopener" style="display:none">Open Grafana ↗</a></div>
+    </section>
+    <p class="hint">Monitor tiles come from your config: <code>MONITOR_SPARKDASH_URL</code> and <code>MONITOR_GRAFANA_URL</code>. No URLs configured = tile hidden.</p>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

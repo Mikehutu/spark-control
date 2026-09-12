@@ -1,0 +1,9 @@
+{
+  "name": "Spark Control",
+  "short_name": "SparkCtl",
+  "start_url": "/ui",
+  "display": "standalone",
+  "background_color": "#0d1117",
+  "theme_color": "#0d1117",
+  "icons": []
+}
