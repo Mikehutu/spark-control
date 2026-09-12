@@ -1,5 +1,7 @@
 # Spark Control
 
+[![CI](https://github.com/Mikehutu/spark-control/actions/workflows/ci.yml/badge.svg)](https://github.com/Mikehutu/spark-control/actions/workflows/ci.yml)
+
 A self-hosted control plane for **DGX Spark / GB10 owners** — start, stop, and
 swap your model-serving recipes from a phone or browser, with confirmation
 gates and honest status. No cloud, no vendor portal, no Docker-in-Docker UI:
