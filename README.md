@@ -166,6 +166,17 @@ HTTP dashboard work: iframe for `MONITOR_SPARKDASH_URL`, link for
   starting them goes through the confirm gate.
 - **GPU memory `N/A`** → GB10 unified memory doesn't expose per-GPU MiB; normal.
 
+## Development
+
+```bash
+pip install -e ".[dev]"
+pytest -q                       # 89 unit tests (FakeSsh — no cluster needed)
+ruff check src/ tests/
+mypy --strict src/sparkcontrol/
+```
+
+The same gates run as **CI on every push/PR** (GitHub Actions, Python 3.11 + 3.12).
+
 ## License
 
 MIT — see [LICENSE](LICENSE). Use it, fork it, improve it. If you build
